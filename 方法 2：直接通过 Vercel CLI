@@ -1,0 +1,10 @@
+# 安装 Vercel CLI
+npm i -g vercel
+
+# 登录
+vercel login
+
+# 部署
+vercel
+
+# 按提示操作，全部选默认即可
