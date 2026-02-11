@@ -1,0 +1,16 @@
+# 1. 创建 Next.js 项目
+npx create-next-app@latest binance-dashboard
+
+# 安装过程中的选项：
+# ✔ Would you like to use TypeScript? › Yes
+# ✔ Would you like to use ESLint? › Yes
+# ✔ Would you like to use Tailwind CSS? › Yes
+# ✔ Would you like to use `src/` directory? › No
+# ✔ Would you like to use App Router? › Yes
+# ✔ Would you like to customize the default import alias? › No
+
+# 2. 进入项目目录
+cd binance-dashboard
+
+# 3. 安装额外依赖
+npm install axios recharts lucide-react
