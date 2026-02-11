@@ -1,0 +1,49 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { get24hrTicker, getAllTickers } from '@/lib/binance';
+import { BinanceWebSocket } from '@/lib/websocket';
+import PriceCard from '@/components/PriceCard';
+import VolumeChart from '@/components/VolumeChart';
+import MarketCapCard from '@/components/MarketCapCard';
+
+export default function Dashboard() {
+  const [selectedSymbol, setSelectedSymbol] = useState('BTCUSDT');
+  const [ticker, setTicker] = useState<any>(null);
+  const [topCoins, setTopCoins] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      const [tickerData, allTickers] = await Promise.all([
+        get24hrTicker(selectedSymbol),
+        getAllTickers()
+      ]);
+      
+      setTicker(tickerData);
+      const sorted = allTickers
+        .filter(t => t.symbol.endsWith('USDT'))
+        .sort((a, b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+        .slice(0, 20);
+      
+      setTopCoins(sorted);
+      setLoading(false);
+    }
+    loadData();
+  }, [selectedSymbol]);
+
+  useEffect(() => {
+    const ws = new BinanceWebSocket();
+    ws.connect(selectedSymbol, (data) => {
+      setTicker({
+        symbol: data.s,
+        price: data.c,
+        priceChangePercent: data.P,
+        volume: data.v,
+        quoteVolume: data.q,
+      });
+    });
+    return () => ws.disconnect();
+  }, [selectedSymbol]);
+
+  if (loading) return <div className="p-8 text-white">加载中...</div>;
