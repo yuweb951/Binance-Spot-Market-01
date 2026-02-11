@@ -1,0 +1,10 @@
+# 创建文件夹
+mkdir -p lib components
+
+# 创建文件
+touch lib/binance.ts
+touch lib/websocket.ts
+touch lib/cache.ts
+touch components/PriceCard.tsx
+touch components/VolumeChart.tsx
+touch components/MarketCapCard.tsx
