@@ -1,0 +1,53 @@
+return (
+    <div className="min-h-screen bg-gray-900 text-white p-8">
+      <h1 className="text-4xl font-bold mb-8">币安现货市场监控</h1>
+      
+      <div className="flex gap-4 mb-8 overflow-x-auto">
+        {['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT'].map(symbol => (
+          <button
+            key={symbol}
+            onClick={() => setSelectedSymbol(symbol)}
+            className={`px-6 py-3 rounded-lg font-semibold whitespace-nowrap ${
+              selectedSymbol === symbol ? 'bg-yellow-500 text-black' : 'bg-gray-800 hover:bg-gray-700'
+            }`}
+          >
+            {symbol.replace('USDT', '')}
+          </button>
+        ))}
+      </div>
+
+      {ticker && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <PriceCard ticker={ticker} />
+          <MarketCapCard symbol={selectedSymbol} price={parseFloat(ticker.price)} />
+        </div>
+      )}
+
+      <div className="mt-8">
+        <VolumeChart symbol={selectedSymbol} />
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-4">24h 交易量排行</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {topCoins.map(coin => (
+            <div
+              key={coin.symbol}
+              onClick={() => setSelectedSymbol(coin.symbol)}
+              className="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition"
+            >
+              <div className="font-bold">{coin.symbol}</div>
+              <div className="text-2xl">${parseFloat(coin.price).toFixed(2)}</div>
+              <div className={parseFloat(coin.priceChangePercent) >= 0 ? 'text-green-500' : 'text-red-500'}>
+                {parseFloat(coin.priceChangePercent).toFixed(2)}%
+              </div>
+              <div className="text-sm text-gray-400">
+                Vol: ${(parseFloat(coin.quoteVolume) / 1e6).toFixed(2)}M
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
