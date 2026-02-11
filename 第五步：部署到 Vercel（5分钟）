@@ -1,0 +1,20 @@
+# 1. 初始化 Git
+git init
+git add .
+git commit -m "Initial commit"
+
+# 2. 在 GitHub 创建新仓库
+# 访问 https://github.com/new
+# 仓库名：binance-dashboard
+# 设置为 Public
+
+# 3. 推送代码
+git remote add origin https://github.com/你的用户名/binance-dashboard.git
+git branch -M main
+git push -u origin main
+
+# 4. 部署到 Vercel
+# 访问 https://vercel.com/new
+# 点击 "Import Git Repository"
+# 选择你的 binance-dashboard 仓库
+# 点击 "Deploy"
